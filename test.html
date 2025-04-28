@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EquiNews - AI for Education & Equality</title>
+    <style>
+        /* === 全局样式 === */
+        :root {
+            --sdg4-blue: #1F9ED3;  /* 教育蓝 */
+            --sdg10-orange: #FF6B4A; /* 不平等橙 */
+            --text-dark: #333333;
+            --bg-light: #F8F9FA;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: white;
+            color: var(--text-dark);
+        }
+        
+        /* === 导航栏 === */
+        header {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 5%;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .logo img {
+            height: 30px;
+        }
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        nav a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+        
+        /* === 首屏Hero === */
+        .hero {
+            background: linear-gradient(135deg, var(--sdg4-blue), #A5D8FF);
+            color: white;
+            padding: 4rem 5%;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .search-bar {
+            width: 60%;
+            margin: 0 auto;
+            padding: 0.8rem;
+            border-radius: 50px;
+            border: none;
+        }
+        
+        /* === 新闻卡片网格 === */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem 5%;
+        }
+        .news-card {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+        .card-header {
+            padding: 1rem;
+            background: var(--bg-light);
+            display: flex;
+            justify-content: space-between;
+        }
+        .sdg-tag {
+            background: var(--sdg4-blue);
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        .card-content {
+            padding: 1rem;
+        }
+        .card-content h3 {
+            margin-top: 0;
+        }
+        
+        /* === 地图可视化模块 === */
+        .map-section {
+            padding: 2rem 5%;
+            background: var(--bg-light);
+        }
+        #interactive-map {
+            height: 400px;
+            background: #ddd;
+            border-radius: 8px;
+            margin-top: 1rem;
+            /* 实际应嵌入地图库（如Leaflet） */
+        }
+        
+        /* === 行动号召按钮 === */
+        .cta-button {
+            background: var(--sdg10-orange);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 1rem 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="logo">
+            <img src="logo.svg" alt="EquiNews Logo">
+            <span>EquiNews</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">News</a></li>
+                <li><a href="#">SDGs</a></li>
+                <li><a href="#">Stories</a></li>
+                <li><a href="#">Act</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <!-- 首屏Hero -->
+    <section class="hero">
+        <h1>Tracking Equity in Education</h1>
+        <p>AI-Powered Insights for Global Change</p>
+        <input type="text" class="search-bar" placeholder="Search by region or SDG goal...">
+    </section>
+    
+    <!-- 新闻卡片网格 -->
+    <section class="news-grid">
+        <article class="news-card">
+            <div class="card-header">
+                <span class="sdg-tag">SDG 4</span>
+                <small>2 hours ago</small>
+            </div>
+            <div class="card-content">
+                <h3>Kenya Launches Free Digital Learning Platform</h3>
+                <p>Covering 2 million students in remote areas. Government allocates $20M for infrastructure.</p>
+                <a href="#" class="cta-button">Read More</a>
+            </div>
+        </article>
+        
+        <!-- 更多卡片... -->
+    </section>
+    
+    <!-- 地图模块 -->
+    <section class="map-section">
+        <h2>Global Education Inequality Hotspots</h2>
+        <div id="interactive-map"></div>
+        <a href="#" class="cta-button">Explore Data</a>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer>
+        <!-- 合作机构Logo等 -->
+    </footer>
+</body>
+</html>
