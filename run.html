@@ -101,6 +101,41 @@
             margin-top: 0;
         }
         
+        /* === 新闻卡片网格1 === */
+        .news-grid1 {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem 5%;
+        }
+        .news-card1 {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .news-card1:hover {
+            transform: translateY(-5px);
+        }
+        .card-header1 {
+            padding: 1rem;
+            background: var(--bg-light);
+            display: flex;
+            justify-content: space-between;
+        }
+        .sdg-tag1 {
+            background: var(--sdg4-blue);
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        .card-content1 {
+            padding: 1rem;
+        }
+        .card-content h3 {
+            margin-top: 0;
+        }
         /* === 地图可视化模块 === */
         .map-section {
             padding: 2rem 5%;
@@ -191,6 +226,43 @@
             </div>
         </article>
     </section>
+   <!-- 新闻卡片网格1 -->
+    <section class="news-grid1">
+        <article class="news-card1">
+            <div class="card-header1">
+                <span class="sdg-tag1">SDG 5</span>
+                <small>2 hours ago</small>
+            </div>
+            <div class="card-content1">
+                <h3>What is Lorem Ipsum?</h3>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <a href="#" class="cta-button">Read More</a>
+            </div>
+        </article>
+        
+        <article class="news-card1">
+            <div class="card-header1">
+                <span class="sdg-tag1">SDG 5</span>
+                <small>2 hours ago</small>
+            </div>
+            <div class="card-content1">
+                <h3>What is Lorem Ipsum?</h3>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <a href="#" class="cta-button">Read More</a>
+            </div>
+        </article>
+        
+        <article class="news-card1">
+            <div class="card-header1">
+                <span class="sdg-tag1">SDG 5</span>
+                <small>2 hours ago</small>
+            </div>
+            <div class="card-content1">
+                <h3>What is Lorem Ipsum?</h3>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <a href="#" class="cta-button">Read More</a>
+            </div>
+        </article>
     </section>
     
     <!-- 地图模块 -->
