@@ -3,60 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EquiNews - AI for Education & Equality</title>
+    <title>UNSDG - Education & Inequality</title>
+    
+    <!-- Fonts and Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Schoolbell&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
     <style>
-        /* === 全局样式 === */
         :root {
-            --sdg4-blue: #1F9ED3;  /* 教育蓝 */
-            --sdg10-orange: #FF6B4A; /* 不平等橙 */
+            --sdg4-blue: #9b1fd3;
+            --sdg10-orange: #FF6B4A;
             --text-dark: #333333;
             --bg-light: #F8F9FA;
         }
+
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
             background-color: white;
             color: var(--text-dark);
         }
-        
-        /* === 导航栏 === */
+
+        /* === Header === */
         header {
             display: flex;
             justify-content: space-between;
             padding: 1rem 5%;
             background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
+
         .logo {
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
+
         .logo img {
             height: 30px;
         }
-        nav ul {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-        nav a {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 600;
-        }
-        
-        /* === 首屏Hero === */
+
+        /* === Hero头 === */
         .hero {
             background: linear-gradient(135deg, var(--sdg4-blue), #A5D8FF);
             color: white;
             padding: 4rem 5%;
             text-align: center;
         }
+
         .hero h1 {
             font-size: 2.5rem;
             margin-bottom: 1rem;
         }
+
         .search-bar {
             width: 60%;
             margin: 0 auto;
@@ -64,11 +63,11 @@
             border-radius: 50px;
             border: none;
         }
-        
+
         /* === 新闻卡片网格 === */
         .news-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
             gap: 1.5rem;
             padding: 2rem 5%;
         }
@@ -101,20 +100,61 @@
             margin-top: 0;
         }
         
-        /* === 地图可视化模块 === */
+        /* === 新闻卡片网格1 === */
+        .news-grid1 {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem 5%;
+        }
+        .news-card1 {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .news-card1:hover {
+            transform: translateY(-5px);
+        }
+        .card-header1 {
+            padding: 1rem;
+            background: var(--bg-light);
+            display: flex;
+            justify-content: space-between;
+        }
+        .sdg-tag1 {
+            background: var(--sdg4-blue);
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        .card-content1 {
+            padding: 1rem;
+        }
+        .card-content h3 {
+            margin-top: 0;
+        }
+        /* === Map Section === */
         .map-section {
             padding: 2rem 5%;
             background: var(--bg-light);
+            text-align: center;
         }
+
+        .map-box {
+            padding: 1rem;
+        }
+
         #interactive-map {
-            height: 400px;
+            width: 100%;
+            height: 600px;
             background: #ddd;
             border-radius: 8px;
             margin-top: 1rem;
-            /* 实际应嵌入地图库（如Leaflet） */
         }
-        
-        /* === 行动号召按钮 === */
+
+        /* === CTA Button === */
         .cta-button {
             background: var(--sdg10-orange);
             color: white;
@@ -125,33 +165,46 @@
             margin: 1rem 0;
             font-weight: bold;
         }
+
+        /* === Footer === */
+        footer {
+            background: #f0f0f0;
+            padding: 2rem 5%;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        /* === Section Title === */
+        .section-title {
+            font-size: 300%;
+            text-align: center;
+            color: #d96252;
+            font-family: 'Schoolbell', cursive;
+            margin: 2rem 0 1rem;
+        }
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
+
+    <!-- Header -->
     <header>
         <div class="logo">
-            <img src="logo.svg" alt="EquiNews Logo">
+            <img src="logo.svg" alt="Hii news">
             <span>EquiNews</span>
         </div>
-        <nav>
-            <ul>
-                <li><a href="#">News</a></li>
-                <li><a href="#">SDGs</a></li>
-                <li><a href="#">Stories</a></li>
-                <li><a href="#">Act</a></li>
-            </ul>
-        </nav>
     </header>
-    
-    <!-- 首屏Hero -->
+
+    <!-- Hero -->
     <section class="hero">
         <h1>Tracking Equity in Education</h1>
         <p>AI-Powered Insights for Global Change</p>
         <input type="text" class="search-bar" placeholder="Search by region or SDG goal...">
     </section>
-    
-    <!-- 新闻卡片网格 -->
+
+    <!-- News Title -->
+    <h1 class="section-title">Hot News Right Now!</h1>
+
+        <!-- 新闻卡片网格 -->
     <section class="news-grid">
         <article class="news-card">
             <div class="card-header">
@@ -159,25 +212,136 @@
                 <small>2 hours ago</small>
             </div>
             <div class="card-content">
-                <h3>Kenya Launches Free Digital Learning Platform</h3>
-                <p>Covering 2 million students in remote areas. Government allocates $20M for infrastructure.</p>
+                <h3>What is Lorem Ipsum?</h3>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                 <a href="#" class="cta-button">Read More</a>
             </div>
         </article>
         
-        <!-- 更多卡片... -->
+       
+         <article class="news-card">
+            <div class="card-header">
+                <span class="sdg-tag">SDG 4</span>
+                <small>2 hours ago</small>
+            </div>
+            <div class="card-content">
+                <h3>What is Lorem Ipsum?</h3>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <a href="#" class="cta-button">Read More</a>
+            </div>
+        </article>
+
+       
+         <article class="news-card">
+            <div class="card-header">
+                <span class="sdg-tag">SDG 4</span>
+                <small>2 hours ago</small>
+            </div>
+            <div class="card-content">
+                <h3>What is Lorem Ipsum?</h3>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <a href="#" class="cta-button">Read More</a>
+            </div>
+        </article>
     </section>
-    
-    <!-- 地图模块 -->
+   <!-- 新闻卡片网格1 -->
+    <section class="news-grid1">
+        <article class="news-card1">
+            <div class="card-header1">
+                <span class="sdg-tag1">SDG 5</span>
+                <small>2 hours ago</small>
+            </div>
+            <div class="card-content1">
+                <h3>What is Lorem Ipsum?</h3>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <a href="#" class="cta-button">Read More</a>
+            </div>
+        </article>
+        
+        <article class="news-card1">
+            <div class="card-header1">
+                <span class="sdg-tag1">SDG 5</span>
+                <small>2 hours ago</small>
+            </div>
+            <div class="card-content1">
+                <h3>What is Lorem Ipsum?</h3>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <a href="#" class="cta-button">Read More</a>
+            </div>
+        </article>
+        
+        <article class="news-card1">
+            <div class="card-header1">
+                <span class="sdg-tag1">SDG 5</span>
+                <small>2 hours ago</small>
+            </div>
+            <div class="card-content1">
+                <h3>What is Lorem Ipsum?</h3>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <a href="#" class="cta-button">Read More</a>
+            </div>
+        </article>
+
+        <article class="news-card1">
+            <div class="card-header1">
+                <span class="sdg-tag1">SDG 5</span>
+                <small>2 hours ago</small>
+            </div>
+            <div class="card-content1">
+                <h3>What is Lorem Ipsum?</h3>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <a href="#" class="cta-button">Read More</a>
+            </div>
+        </article>
+    </section>
+<h1 class="section-title">Viral videos or images now</h1>
+    <section class="news-grid1">
+        <article class="news-card1">
+            <img src="placeholder.png" alt="viral image" style="width:100%; height:150px; object-fit:cover;">
+        </article>
+        <article class="news-card1">
+            <video controls style="width:100%; height:500px; object-fit:cover;">
+                <source src="sample-video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </article>
+        <article class="news-card1">
+            <img src="placeholder.png" alt="viral image" style="width:100%; height:150px; object-fit:cover;">
+        </article>
+    </section>
+
+    <!-- Map -->
+    <h1 class="section-title">Global Education Inequality Hotspot</h1>
     <section class="map-section">
-        <h2>Global Education Inequality Hotspots</h2>
-        <div id="interactive-map"></div>
+        <div class="map-box">
+            <h3>Map: Education Inequality Worldwide</h3>
+            <div id="interactive-map"></div>
+        </div>
         <a href="#" class="cta-button">Explore Data</a>
     </section>
-    
-    <!-- 页脚 -->
+
+    <!-- Footer -->
     <footer>
-        <!-- 合作机构Logo等 -->
+        &copy; 2025 EquiNews. All rights reserved.
     </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('interactive-map');
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://carto.com/">CARTO</a>'
+        }).addTo(map);
+
+        map.fitBounds([
+            [-60, -160],
+            [70, 180]
+        ]);
+
+        L.marker([-1.9577, 30.1127]).addTo(map).bindPopup('Sub-Saharan Africa: Limited access to education');
+        L.marker([23.684994, 90.356331]).addTo(map).bindPopup('South Asia: Gender disparity in schools');
+        L.marker([-14.235, -51.9253]).addTo(map).bindPopup('Latin America: Rural school drop-out crisis');
+    </script>
+
 </body>
 </html>
