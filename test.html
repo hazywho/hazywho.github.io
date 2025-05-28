@@ -43,6 +43,80 @@
             height: 30px;
         }
 
+
+        /* Toggle switch */
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0;
+            right: 0; bottom: 0;
+            background-color: #ccc;
+            border-radius: 24px;
+            transition: 0.4s;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px; width: 18px;
+            left: 3px; bottom: 3px;
+            background-color: white;
+            border-radius: 50%;
+            transition: 0.4s;
+        }
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #f1f1f1;
+        }
+        body.dark-mode header,
+        body.dark-mode footer {
+            background-color: #222;
+        }
+        body.dark-mode .hero {
+            background: linear-gradient(135deg, #672b9a, #333);
+        }
+        body.dark-mode .news-card,
+        body.dark-mode .news-card1 {
+            background-color: #2a2a2a;
+        }
+        body.dark-mode .card-header,
+        body.dark-mode .card-header1 {
+            background-color: #333;
+        }
+        body.dark-mode .sdg-tag,
+        body.dark-mode .sdg-tag1 {
+            background-color: #8833cc;
+        }
+        body.dark-mode .cta-button {
+            background-color: #ff8566;
+            color: #fff;
+        }
+        body.dark-mode .map-section {
+            background-color: #1e1e1e;
+        }
+
         /* === Hero头 === */
         .hero {
             background: linear-gradient(135deg, var(--sdg4-blue), #A5D8FF);
@@ -189,9 +263,16 @@
     <!-- Header -->
     <header>
         <div class="logo">
-            <img src="logo.svg" alt="Hii news">
+            <img src="https://media.discordapp.net/attachments/1349663384827723799/1377277891729162271/earthPNG.png?ex=6838617d&is=68370ffd&hm=deb5454d91d002d2d35db014a60f890a6f4085893245288f3d972eca03fb82bb&=&format=webp&quality=lossless&width=838&height=838" alt="Hii news" style="width:60%; height:60px; object-fit:cover;">
             <span>EquiNews</span>
         </div>
+        <div class="theme-toggle">
+    <label class="switch">
+        <input type="checkbox" id="theme-toggle-checkbox">
+        <span class="slider"></span>
+    </label>
+		</div>
+
     </header>
 
     <!-- Hero -->
@@ -351,5 +432,28 @@
         L.marker([-14.235, -51.9253]).addTo(map).bindPopup('Latin America: Rural school drop-out crisis');
     </script>
 
+	<!-- Toggle switch -->
+    <script>
+        const toggle = document.getElementById('theme-toggle-checkbox');
+        const body = document.body;
+
+        // Load mode from localStorage
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
+            toggle.checked = true;
+        }
+
+        toggle.addEventListener('change', () => {
+            if (toggle.checked) {
+                body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.remove('dark-mode');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+    </script>
+
 </body>
+
 </html>
