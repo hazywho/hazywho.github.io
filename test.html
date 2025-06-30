@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UNSDG - Education & Inequality</title>
     
-    <!-- Fonts and Styles -->
     <link href="https://fonts.googleapis.com/css2?family=Schoolbell&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
 
     <style>
         :root {
@@ -31,6 +32,9 @@
             padding: 1rem 5%;
             background: white;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky; /* Make header sticky */
+            top: 0;
+            z-index: 1000; /* Ensure header is on top */
         }
 
         .logo {
@@ -138,77 +142,62 @@
             border: none;
         }
 
-        /* === 新闻卡片网格 === */
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-            gap: 1.5rem;
+        /* === News Card Grid - Modified for Horizontal Scroll === */
+        .news-grid, .news-grid1 {
+            display: flex; /* Use flexbox for horizontal layout */
+            overflow-x: auto; /* Enable horizontal scrolling */
+            scroll-snap-type: x mandatory; /* Optional: for snapping to cards */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
             padding: 2rem 5%;
+            gap: 1.5rem;
+            /* Hide scrollbar for a cleaner look, but still allow scrolling */
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* IE and Edge */
         }
-        .news-card {
+
+        .news-grid::-webkit-scrollbar, .news-grid1::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
+        .news-card, .news-card1 {
+            flex-shrink: 0; /* Prevent cards from shrinking */
+            width: 400px; /* Set a fixed width for news-card */
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 3px 10px rgba(0,0,0,0.1);
             transition: transform 0.3s;
+            scroll-snap-align: start; /* Optional: Snap individual cards to start */
         }
-        .news-card:hover {
+        
+        .news-card:hover, .news-card1:hover {
             transform: translateY(-5px);
         }
-        .card-header {
+        .card-header, .card-header1 {
             padding: 1rem;
             background: var(--bg-light);
             display: flex;
             justify-content: space-between;
         }
-        .sdg-tag {
+        .sdg-tag, .sdg-tag1 {
             background: var(--sdg4-blue);
             color: white;
             padding: 0.3rem 0.6rem;
             border-radius: 20px;
             font-size: 0.8rem;
         }
-        .card-content {
+        .card-content, .card-content1 {
             padding: 1rem;
         }
-        .card-content h3 {
+        .card-content h3, .card-content1 h3 {
             margin-top: 0;
         }
         
-        /* === 新闻卡片网格1 === */
-        .news-grid1 {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            padding: 2rem 5%;
-        }
+        /* Specific width for news-card1 for the second grid */
         .news-card1 {
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+            width: 300px; /* Set a fixed width for news-card1 */
         }
-        .news-card1:hover {
-            transform: translateY(-5px);
-        }
-        .card-header1 {
-            padding: 1rem;
-            background: var(--bg-light);
-            display: flex;
-            justify-content: space-between;
-        }
-        .sdg-tag1 {
-            background: var(--sdg4-blue);
-            color: white;
-            padding: 0.3rem 0.6rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }
-        .card-content1 {
-            padding: 1rem;
-        }
-        .card-content h3 {
-            margin-top: 0;
-        }
+
+
         /* === Map Section === */
         .map-section {
             padding: 2rem 5%;
@@ -260,10 +249,9 @@
 </head>
 <body>
 
-    <!-- Header -->
     <header>
         <div class="logo">
-            <img src="https://media.discordapp.net/attachments/1349663384827723799/1377277891729162271/earthPNG.png?ex=6838617d&is=68370ffd&hm=deb5454d91d002d2d35db014a60f890a6f4085893245288f3d972eca03fb82bb&=&format=webp&quality=lossless&width=838&height=838" alt="Hii news" style="width:60%; height:60px; object-fit:cover;">
+            <img src="https://media.discordapp.net/attachments/1349663384827723799/1377277891729162271/earthPNG.png?ex=6838617d&is=68370ffd&hm=deb5454d91d002d2d35db014a60f890a6f4085893245288f3d972eca03fb82bb&=&format=webp&quality=lossless&width=838&height=838" alt="Hii news" style="width:60px; height:60px; object-fit:cover;">
             <span>Hazy_News</span>
         </div>
         <div class="theme-toggle">
@@ -271,22 +259,19 @@
         <input type="checkbox" id="theme-toggle-checkbox">
         <span class="slider"></span>
     </label>
-		</div>
+        </div>
 
     </header>
 
-    <!-- Hero -->
     <section class="hero">
         <h1>Tracking Equity in Education</h1>
         <p>AI-Powered Insights for Global Change</p>
         <input type="text" class="search-bar" placeholder="Search by region or SDG goal...">
     </section>
 
-    <!-- News Title -->
     <h1 class="section-title">Hot News Right Now!</h1>
 
-        <!-- 新闻卡片网格 -->
-    <section class="news-grid">
+        <section class="news-grid" id="hot-news-grid">
         <article class="news-card">
             <div class="card-header">
                 <span class="sdg-tag">SDG 4</span>
@@ -299,33 +284,55 @@
             </div>
         </article>
         
-       
-         <article class="news-card">
+        <article class="news-card">
             <div class="card-header">
                 <span class="sdg-tag">SDG 4</span>
                 <small>2 hours ago</small>
             </div>
             <div class="card-content">
-                <h3>What is Lorem Ipsum?</h3>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <h3>A New Dawn in Education Access</h3>
+                <p>Groundbreaking initiatives are closing the gap for underserved communities.</p>
                 <a href="#" class="cta-button">Read More</a>
             </div>
         </article>
 
-       
-         <article class="news-card">
+        <article class="news-card">
             <div class="card-header">
                 <span class="sdg-tag">SDG 4</span>
-                <small>2 hours ago</small>
+                <small>1 day ago</small>
             </div>
             <div class="card-content">
-                <h3>What is Lorem Ipsum?</h3>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <h3>Innovation in Learning Technology</h3>
+                <p>How AI is personalizing education for millions globally.</p>
+                <a href="#" class="cta-button">Read More</a>
+            </div>
+        </article>
+
+        <article class="news-card">
+            <div class="card-header">
+                <span class="sdg-tag">SDG 4</span>
+                <small>3 days ago</small>
+            </div>
+            <div class="card-content">
+                <h3>Teacher Training: Key to Quality Education</h3>
+                <p>Investing in educators yields significant returns in student outcomes.</p>
+                <a href="#" class="cta-button">Read More</a>
+            </div>
+        </article>
+
+        <article class="news-card">
+            <div class="card-header">
+                <span class="sdg-tag">SDG 4</span>
+                <small>1 week ago</small>
+            </div>
+            <div class="card-content">
+                <h3>Bridging the Digital Divide in Schools</h3>
+                <p>Efforts to provide internet access and devices to every student.</p>
                 <a href="#" class="cta-button">Read More</a>
             </div>
         </article>
     </section>
-   <!-- 新闻卡片网格1 -->
+
     <section class="news-grid1">
         <article class="news-card1">
             <div class="card-header1">
@@ -333,8 +340,8 @@
                 <small>2 hours ago</small>
             </div>
             <div class="card-content1">
-                <h3>What is Lorem Ipsum?</h3>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <h3>Empowering Women Through Education</h3>
+                <p>New programs focus on girls' enrollment in STEM fields.</p>
                 <a href="#" class="cta-button">Read More</a>
             </div>
         </article>
@@ -345,8 +352,8 @@
                 <small>2 hours ago</small>
             </div>
             <div class="card-content1">
-                <h3>What is Lorem Ipsum?</h3>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <h3>Gender Parity in Leadership Roles</h3>
+                <p>Universities report progress in female representation in academic leadership.</p>
                 <a href="#" class="cta-button">Read More</a>
             </div>
         </article>
@@ -357,8 +364,8 @@
                 <small>2 hours ago</small>
             </div>
             <div class="card-content1">
-                <h3>What is Lorem Ipsum?</h3>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <h3>Breaking Barriers: Women in Tech</h3>
+                <p>Initiatives to encourage more women into technology sectors.</p>
                 <a href="#" class="cta-button">Read More</a>
             </div>
         </article>
@@ -369,39 +376,58 @@
                 <small>2 hours ago</small>
             </div>
             <div class="card-content1">
-                <h3>What is Lorem Ipsum?</h3>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <h3>Addressing Gender-Based Violence</h3>
+                <p>Educational campaigns are raising awareness and promoting safety.</p>
                 <a href="#" class="cta-button">Read More</a>
             </div>
         </article>
     </section>
 
-    <!-- Video & image -->
-<h1 class="section-title">Viral videos or images now</h1>
-    <section class="news-grid1">
+    <h1 class="section-title">Viral videos or images now</h1>
+    <section class="news-grid1" id="viral-media-grid">
         <article class="news-card1">
-            <img src="placeholder.png" alt="viral image" style="width:100%; height:150px; object-fit:cover;">
+            <img src="https://cdn.pixabay.com/photo/2016/09/01/10/23/learn-1635391_1280.jpg" alt="viral image" style="width:100%; height:150px; object-fit:cover;">
+            <div class="card-content1">
+                <h3>Inspiring Future Leaders</h3>
+                <p>A look into a school making a difference.</p>
+            </div>
         </article>
         <article class="news-card1">
-            <video controls style="width:100%; height:500px; object-fit:cover;">
-                <source src="sample-video.mp4" type="video/mp4">
+            <video controls style="width:100%; height:150px; object-fit:cover;">
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-little-girl-drawing-with-colored-pencils-34509-large.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
+            <div class="card-content1">
+                <h3>Creativity in the Classroom</h3>
+                <p>Watch how young minds explore art.</p>
+            </div>
         </article>
         <article class="news-card1">
-            <img src="placeholder.png" alt="viral image" style="width:100%; height:150px; object-fit:cover;">
+            <img src="https://cdn.pixabay.com/photo/2017/08/02/10/51/education-2571477_1280.jpg" alt="viral image" style="width:100%; height:150px; object-fit:cover;">
+            <div class="card-content1">
+                <h3>Global Collaboration in Education</h3>
+                <p>Students from different countries connecting online.</p>
+            </div>
         </article>
-         <article class="news-card1">
-            <video controls style="width:100%; height:500px; object-fit:cover;">
-                <source src="sample-video.mp4" type="video/mp4">
+           <article class="news-card1">
+            <video controls style="width:100%; height:150px; object-fit:cover;">
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-children-reading-in-a-class-31128-large.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
+            <div class="card-content1">
+                <h3>The Joy of Reading</h3>
+                <p>A heartwarming scene from a literacy program.</p>
+            </div>
+        </article>
+        <article class="news-card1">
+            <img src="https://cdn.pixabay.com/photo/2015/07/16/11/49/teacher-847355_1280.jpg" alt="viral image" style="width:100%; height:150px; object-fit:cover;">
+            <div class="card-content1">
+                <h3>Dedicated Educators</h3>
+                <p>Celebrating the unsung heroes of learning.</p>
+            </div>
         </article>
     </section>
 
-    <!-- SDG image -->
-
-    <!-- Map -->
     <h1 class="section-title">Global Education Inequality Hotspot</h1>
     <section class="map-section">
         <div class="map-box">
@@ -410,13 +436,11 @@
         </div>
         <a href="#" class="cta-button">Explore Data</a>
     </section>
-	
-    <!-- Footer -->
+    
     <footer>
         &copy; 2025 EquiNews. All rights reserved.
     </footer>
 
-    <!-- Scripts -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         const map = L.map('interactive-map');
@@ -434,7 +458,6 @@
         L.marker([-14.235, -51.9253]).addTo(map).bindPopup('Latin America: Rural school drop-out crisis');
     </script>
 
-	<!-- Toggle switch -->
     <script>
         const toggle = document.getElementById('theme-toggle-checkbox');
         const body = document.body;
@@ -456,6 +479,74 @@
         });
     </script>
 
-</body>
+    <script>
+        function setupAutoScroll(containerId, scrollSpeed = 100) { // scrollSpeed in pixels per second
+            const container = document.getElementById(containerId);
+            if (!container) return; // Exit if container not found
 
+            let scrollAmount = 0;
+            let animationFrameId;
+            const cardGap = 24; // This should match your CSS 'gap' for accuracy (1.5rem * 16px/rem = 24px)
+
+            function scrollContent() {
+                // Check if content width is greater than container width to enable scrolling
+                if (container.scrollWidth <= container.clientWidth) {
+                    animationFrameId = requestAnimationFrame(scrollContent); // Keep checking
+                    return;
+                }
+
+                // Calculate the amount to scroll in this frame
+                const scrollStep = (scrollSpeed / 60); // Assuming ~60 frames per second
+
+                // Increment scroll position
+                scrollAmount += scrollStep;
+
+                // Loop back if we've scrolled past the content
+                // We compare scrollAmount to scrollWidth (total content width) - clientWidth (visible width)
+                // If scrollAmount exceeds this, it means we've scrolled past the last visible part of the content.
+                // We add a small buffer (e.g., cardGap * 0.5) to ensure smooth looping and avoid a blank space.
+                if (scrollAmount >= (container.scrollWidth - container.clientWidth)) {
+                    scrollAmount = 0; // Reset to start
+                }
+
+                container.scrollLeft = scrollAmount;
+                animationFrameId = requestAnimationFrame(scrollContent);
+            }
+
+            let isPaused = false;
+
+            // Pause on hover
+            container.addEventListener('mouseenter', () => {
+                cancelAnimationFrame(animationFrameId);
+                isPaused = true;
+            });
+
+            // Resume on mouse leave
+            container.addEventListener('mouseleave', () => {
+                if (isPaused) {
+                    scrollContent();
+                    isPaused = false;
+                }
+            });
+
+            // Start scrolling initially
+            scrollContent();
+
+            // Optional: Adjust scroll speed on window resize (less crucial for simple loop but good practice)
+            window.addEventListener('resize', () => {
+                // Recalculate if needed, or simply restart scroll for fresh positioning
+                cancelAnimationFrame(animationFrameId);
+                scrollAmount = 0; // Reset scroll position on resize
+                scrollContent();
+            });
+        }
+
+        // Initialize auto-scrolling for the hot news grid
+        setupAutoScroll('hot-news-grid', 50); // Slower speed for smoother news reading
+
+        // Initialize auto-scrolling for the viral media grid (optional, can adjust speed)
+        setupAutoScroll('viral-media-grid', 70); // Slightly faster for visual media
+    </script>
+
+</body>
 </html>
