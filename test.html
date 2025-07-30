@@ -19,7 +19,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            margin: 0;
+             margin-bottom: 3rem; /* 每个区块底部多留空间 */
             background-color: white;
             color: var(--text-dark);
         }
@@ -39,18 +39,32 @@
             gap: 0.5rem;
         }
 
+        .logo img {
+            height: 30px;
+        }
+
+
         /* Toggle switch */
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+        }
         .switch {
             position: relative;
             display: inline-block;
             width: 50px;
             height: 24px;
         }
-        .switch input { display: none; }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
         .slider {
             position: absolute;
             cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
+            top: 0; left: 0;
+            right: 0; bottom: 0;
             background-color: #ccc;
             border-radius: 24px;
             transition: 0.4s;
@@ -64,17 +78,46 @@
             border-radius: 50%;
             transition: 0.4s;
         }
-        input:checked + .slider { background-color: #2196F3; }
-        input:checked + .slider:before { transform: translateX(26px); }
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
 
         /* Dark mode styles */
-        body.dark-mode { background-color: #1a1a1a; color: #f1f1f1; }
-        body.dark-mode header, body.dark-mode footer { background-color: #222; }
-        body.dark-mode .hero { background: linear-gradient(135deg, #672b9a, #333); }
-        body.dark-mode .news-card { background-color: #2a2a2a; }
-        body.dark-mode .cta-button { background-color: #ff8566; }
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #f1f1f1;
+        }
+        body.dark-mode header,
+        body.dark-mode footer {
+            background-color: #222;
+        }
+        body.dark-mode .hero {
+            background: linear-gradient(135deg, #672b9a, #333);
+        }
+        body.dark-mode .news-card,
+        body.dark-mode .news-card1 {
+            background-color: #2a2a2a;
+        }
+        body.dark-mode .card-header,
+        body.dark-mode .card-header1 {
+            background-color: #333;
+        }
+        body.dark-mode .sdg-tag,
+        body.dark-mode .sdg-tag1 {
+            background-color: #8833cc;
+        }
+        body.dark-mode .cta-button {
+            background-color: #ff8566;
+            color: #fff;
+        }
+        body.dark-mode .map-section {
+            background-color: #1e1e1e;
+        }
 
-        /* Hero */
+        /* === Hero头 === */
         .hero {
             background: linear-gradient(135deg, var(--sdg4-blue), #A5D8FF);
             color: white;
@@ -82,166 +125,438 @@
             text-align: center;
         }
 
-        .search-bar { width: 60%; margin: 0 auto; padding: 0.8rem; border-radius: 50px; border: none; }
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
 
-        /* News grid */
+        .search-bar {
+            width: 60%;
+            margin: 0 auto;
+            padding: 0.8rem;
+            border-radius: 50px;
+            border: none;
+        }
+
+        /* === 新闻卡片网格 === */
         .news-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 2rem;
-            padding: 2rem 8%;
+             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* 缩小最小宽度，避免卡片太大 */
+             gap: 2rem; /* 增加卡片之间的距离 */
+             padding: 3rem 8%; /* 左右内边距更宽 */
         }
         .news-card {
             border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
             overflow: hidden;
-            background: white;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            padding: 1rem;
         }
-        .news-card img { width: 100%; height: 200px; object-fit: cover; }
-        .card-content { padding: 1rem; }
-        .cta-button {
-            display: inline-block;
-            margin-top: 10px;
-            background: var(--sdg10-orange);
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+        .card-header {
+            padding: 1rem;
+            background: var(--bg-light);
+            display: flex;
+            justify-content: space-between;
+        }
+        .sdg-tag {
+            background: var(--sdg4-blue);
             color: white;
-            padding: 0.6rem 1.2rem;
-            border-radius: 30px;
-            text-decoration: none;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        .card-content {
+            padding: 1rem;
+        }
+        .card-content h3 {
+            margin-top: 0;
+        }
+        
+        /* === 新闻卡片网格1 === */
+        .news-grid1 {
+            display: grid;
+             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* 缩小最小宽度，避免卡片太大 */
+             gap: 2rem; /* 增加卡片之间的距离 */
+             padding: 3rem 8%; /* 左右内边距更宽 */
+        }
+        .news-card1 {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            padding: 1rem;
+        }
+        .news-card1:hover {
+            transform: translateY(-5px);
+        }
+        .card-header1 {
+            padding: 1rem;
+            background: var(--bg-light);
+            display: flex;
+            justify-content: space-between;
+        }
+        .sdg-tag1 {
+            background: var(--sdg4-blue);
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        .card-content1 {
+            padding: 1rem;
+        }
+        .card-content h3 {
+            margin-top: 0;
+        }
+        /* === Map Section === */
+        .map-section {
+            padding: 2rem 5%;
+            background: var(--bg-light);
+            text-align: center;
         }
 
+        .map-box {
+            padding: 1rem;
+        }
+
+        #interactive-map {
+            width: 100%;
+            height: 600px;
+            background: #ddd;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        /* === CTA Button === */
+        .cta-button {
+            background: var(--sdg10-orange);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 1rem 0;
+            font-weight: bold;
+        }
+
+        /* === Footer === */
         footer {
             background: #f0f0f0;
             padding: 2rem 5%;
             text-align: center;
             font-size: 0.9rem;
         }
+
+        /* === Section Title === */
+        .section-title {
+            font-size: 300%;
+            text-align: center;
+            color: #d96252;
+            font-family: 'Schoolbell', cursive;
+            margin: 2rem 0 1rem;
+        }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="logo">
-        <img src="https://media.discordapp.net/attachments/1349663384827723799/1377277891729162271/earthPNG.png" alt="Logo" style="width:40px;">
-        <span>Hazy_News</span>
-    </div>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="https://media.discordapp.net/attachments/1349663384827723799/1377277891729162271/earthPNG.png?ex=6838617d&is=68370ffd&hm=deb5454d91d002d2d35db014a60f890a6f4085893245288f3d972eca03fb82bb&=&format=webp&quality=lossless&width=838&height=838" alt="Hii news" style="width:60%; height:60px; object-fit:cover;">
+            <span>Hazy_News</span>
+        </div>
+        <div class="theme-toggle">
     <label class="switch">
         <input type="checkbox" id="theme-toggle-checkbox">
         <span class="slider"></span>
     </label>
-</header>
+		</div>
 
-<section class="hero">
-    <h1>Tracking Equity in Education</h1>
-    <p>AI-Powered Insights for Global Change</p>
-</section>
+    </header>
 
-<!-- Search and Filter -->
-<div style="text-align:center; margin:20px;">
-    <input type="text" id="search-input" placeholder="Search news..." style="padding:10px; width:250px;">
-    <select id="sdg-filter" style="padding:10px;">
-        <option value="">All SDGs</option>
-        <option value="education">SDG 4: Education</option>
-        <option value="inequality">SDG 10: Inequality</option>
-    </select>
-</div>
+    <!-- Hero -->
+    <section class="hero">
+        <h1>Tracking Equity in Education</h1>
+        <p>AI-Powered Insights for Global Change</p>
+        <input type="text" class="search-bar" placeholder="Search by region or SDG goal...">
+    </section>
 
-<!-- Dynamic News -->
-<section class="news-grid" id="dynamic-news"></section>
+        <!-- 搜索 & 分类 -->
+    <div style="text-align:center; margin:20px;">
+        <input type="text" id="search-input" placeholder="Search news..." style="padding:10px; width:250px;">
+        <select id="sdg-filter" style="padding:10px;">
+            <option value="">All SDGs</option>
+            <option value="education">SDG 4: Education</option>
+            <option value="inequality">SDG 10: Inequality</option>
+        </select>
+    </div>
+    
+    <!-- 动态新闻容器 -->
+    <section class="news-grid" id="dynamic-news"></section>
+    
+    <!-- 加载更多按钮 -->
+    <div style="text-align:center; margin:20px;">
+        <button id="load-more" style="padding:10px 20px; font-size:16px;">Load More</button>
+    </div>
 
-<!-- Load More -->
-<div style="text-align:center; margin:20px;">
-    <button id="load-more" style="padding:10px 20px; font-size:16px;">Load More</button>
-</div>
 
-<footer>
-    &copy; 2025 EquiNews. All rights reserved.
-</footer>
+    <!-- News Title -->
+    <h1 class="section-title">Hot News Right Now!</h1>
+    <section class="news-grid" id="dynamic-news"></section>
 
-<script>
-const API_KEY = "你的API_KEY"; // 替换为你的 NewsAPI Key
-let currentPage = 1;
-let currentQuery = '';
-let currentCategory = '';
-const pageSize = 6;
-const newsContainer = document.getElementById('dynamic-news');
-const loadMoreBtn = document.getElementById('load-more');
 
-// Fetch News
-async function fetchNews(page = 1, query = '', category = '') {
-    let keywords = 'sustainable development OR SDG OR education OR inequality OR poverty OR gender equality';
-    if (query) keywords = query;
-    if (category) keywords = category;
-
-    let url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(keywords)}&language=en&pageSize=${pageSize}&page=${page}&apiKey=${API_KEY}`;
-    const response = await fetch(url);
-    const data = await response.json();
-    return data.articles;
-}
-
-// Render News
-function renderNews(articles, clear = false) {
-    if (clear) newsContainer.innerHTML = '';
-    articles.forEach(article => {
-        const card = document.createElement('article');
-        card.className = "news-card";
-        const img = article.urlToImage ? `<img src="${article.urlToImage}" alt="">` : "";
-        card.innerHTML = `
-            ${img}
+        <!-- 新闻卡片网格 -->
+    <section class="news-grid">
+        <article class="news-card">
+            <div class="card-header">
+                <span class="sdg-tag">SDG 4</span>
+                <small>2 hours ago</small>
+            </div>
             <div class="card-content">
-                <h3>${article.title}</h3>
-                <p>${article.description || "No description available"}</p>
-                <a href="${article.url}" class="cta-button" target="_blank">Read More</a>
-            </div>`;
-        newsContainer.appendChild(card);
+                <h3>What is Lorem Ipsum?</h3>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <a href="#" class="cta-button">Read More</a>
+            </div>
+        </article>
+        
+       
+         <article class="news-card">
+            <div class="card-header">
+                <span class="sdg-tag">SDG 4</span>
+                <small>2 hours ago</small>
+            </div>
+            <div class="card-content">
+                <h3>What is Lorem Ipsum?</h3>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <a href="#" class="cta-button">Read More</a>
+            </div>
+        </article>
+
+       
+         <article class="news-card">
+            <div class="card-header">
+                <span class="sdg-tag">SDG 4</span>
+                <small>2 hours ago</small>
+            </div>
+            <div class="card-content">
+                <h3>What is Lorem Ipsum?</h3>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <a href="#" class="cta-button">Read More</a>
+            </div>
+        </article>
+    </section>
+   <!-- 新闻卡片网格1 -->
+    <section class="news-grid1">
+        <article class="news-card1">
+            <div class="card-header1">
+                <span class="sdg-tag1">SDG 5</span>
+                <small>2 hours ago</small>
+            </div>
+            <div class="card-content1">
+                <h3>What is Lorem Ipsum?</h3>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <a href="#" class="cta-button">Read More</a>
+            </div>
+        </article>
+        
+        <article class="news-card1">
+            <div class="card-header1">
+                <span class="sdg-tag1">SDG 5</span>
+                <small>2 hours ago</small>
+            </div>
+            <div class="card-content1">
+                <h3>What is Lorem Ipsum?</h3>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <a href="#" class="cta-button">Read More</a>
+            </div>
+        </article>
+        
+        <article class="news-card1">
+            <div class="card-header1">
+                <span class="sdg-tag1">SDG 5</span>
+                <small>2 hours ago</small>
+            </div>
+            <div class="card-content1">
+                <h3>What is Lorem Ipsum?</h3>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <a href="#" class="cta-button">Read More</a>
+            </div>
+        </article>
+
+        <article class="news-card1">
+            <div class="card-header1">
+                <span class="sdg-tag1">SDG 5</span>
+                <small>2 hours ago</small>
+            </div>
+            <div class="card-content1">
+                <h3>What is Lorem Ipsum?</h3>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <a href="#" class="cta-button">Read More</a>
+            </div>
+        </article>
+    </section>
+
+    <!-- Video & image -->
+<h1 class="section-title">Viral videos or images now</h1>
+    <section class="news-grid1">
+        <article class="news-card1">
+            <img src="placeholder.png" alt="viral image" style="width:100%; height:150px; object-fit:cover;">
+        </article>
+        <article class="news-card1">
+            <video controls style="width:100%; height:500px; object-fit:cover;">
+                <source src="sample-video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </article>
+        <article class="news-card1">
+            <img src="placeholder.png" alt="viral image" style="width:100%; height:150px; object-fit:cover;">
+        </article>
+         <article class="news-card1">
+            <video controls style="width:100%; height:500px; object-fit:cover;">
+                <source src="sample-video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </article>
+    </section>
+
+    <!-- SDG image -->
+
+    <!-- Map -->
+    <h1 class="section-title">Global Education Inequality Hotspot</h1>
+    <section class="map-section">
+        <div class="map-box">
+            <h3>Map: Education Inequality Worldwide</h3>
+            <div id="interactive-map"></div>
+        </div>
+        <a href="#" class="cta-button">Explore Data</a>
+    </section>
+	
+    <!-- Footer -->
+    <footer>
+        &copy; 2025 EquiNews. All rights reserved.
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('interactive-map');
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://carto.com/">CARTO</a>'
+        }).addTo(map);
+
+        map.fitBounds([
+            [-60, -160],
+            [70, 180]
+        ]);
+
+        L.marker([-1.9577, 30.1127]).addTo(map).bindPopup('Sub-Saharan Africa: Limited access to education');
+        L.marker([23.684994, 90.356331]).addTo(map).bindPopup('South Asia: Gender disparity in schools');
+        L.marker([-14.235, -51.9253]).addTo(map).bindPopup('Latin America: Rural school drop-out crisis');
+    </script>
+
+	<!-- Toggle switch -->
+    <script>
+        const toggle = document.getElementById('theme-toggle-checkbox');
+        const body = document.body;
+
+        // Load mode from localStorage
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
+            toggle.checked = true;
+        }
+
+        toggle.addEventListener('change', () => {
+            if (toggle.checked) {
+                body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.remove('dark-mode');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+    </script>
+     <!-- API connect groove -->
+    <script>
+    const API_KEY = "你的API_KEY"; // 替换成你的API Key
+    let currentPage = 1;
+    let currentQuery = '';
+    let currentCategory = '';
+    const pageSize = 6; // 每次加载6条
+    const newsContainer = document.getElementById('dynamic-news');
+    const loadMoreBtn = document.getElementById('load-more');
+    
+    // 获取新闻数据
+    async function fetchNews(page = 1, query = '', category = '') {
+        let url = https://newsapi.org/v2/top-headlines?country=us&pageSize=${pageSize}&page=${page}&apiKey=${API_KEY};
+    
+        if (query) url += &q=${query};
+        if (category) url += &category=${category}; // 只有支持的类别才会生效
+    
+        const response = await fetch(url);
+        const data = await response.json();
+        return data.articles;
+    }
+    
+    // 渲染新闻卡片
+    function renderNews(articles, clear = false) {
+        if (clear) newsContainer.innerHTML = ''; // 清空旧内容
+        articles.forEach(article => {
+            const card = document.createElement('article');
+            card.className = "news-card";
+    
+            const img = article.urlToImage ? <img src="${article.urlToImage}" style="width:100%; height:200px; object-fit:cover;"> : "";
+    
+            card.innerHTML = 
+                ${img}
+                <div class="card-content">
+                    <h3>${article.title}</h3>
+                    <p>${article.description || "No description available"}</p>
+                    <a href="${article.url}" class="cta-button" target="_blank">Read More</a>
+                </div>
+            ;
+            newsContainer.appendChild(card);
+        });
+    }
+    
+    // 初始加载
+    async function loadNews(clear = false) {
+        const articles = await fetchNews(currentPage, currentQuery, currentCategory);
+        renderNews(articles, clear);
+    }
+    
+    // 搜索功能
+    document.getElementById('search-input').addEventListener('keyup', (e) => {
+        currentQuery = e.target.value;
+        currentPage = 1;
+        loadNews(true); // 清空重新加载
     });
-}
-
-// Load News
-async function loadNews(clear = false) {
-    const articles = await fetchNews(currentPage, currentQuery, currentCategory);
-    renderNews(articles, clear);
-}
-
-// Search
-document.getElementById('search-input').addEventListener('keyup', e => {
-    currentQuery = e.target.value;
-    currentPage = 1;
-    loadNews(true);
-});
-
-// Filter
-document.getElementById('sdg-filter').addEventListener('change', e => {
-    currentCategory = e.target.value;
-    currentPage = 1;
-    loadNews(true);
-});
-
-// Load More
-loadMoreBtn.addEventListener('click', () => {
-    currentPage++;
+    
+    // 分类过滤
+    document.getElementById('sdg-filter').addEventListener('change', (e) => {
+        currentCategory = e.target.value;
+        currentPage = 1;
+        loadNews(true);
+    });
+    
+    // 加载更多
+    loadMoreBtn.addEventListener('click', () => {
+        currentPage++;
+        loadNews();
+    });
+    
+    // 页面加载时调用
     loadNews();
-});
-
-// Auto refresh every 5 mins
-setInterval(() => {
+    setInterval(() => {
     currentPage = 1;
     loadNews(true);
-}, 300000);
+}, 300000); // 每5分钟刷新一次
 
-// Initial load
-loadNews();
+    </script>
 
-// Dark mode toggle
-const toggle = document.getElementById('theme-toggle-checkbox');
-if (localStorage.getItem('theme') === 'dark') {
-    document.body.classList.add('dark-mode');
-    toggle.checked = true;
-}
-toggle.addEventListener('change', () => {
-    document.body.classList.toggle('dark-mode');
-    localStorage.setItem('theme', toggle.checked ? 'dark' : 'light');
-});
-</script>
 
 </body>
+
 </html>
