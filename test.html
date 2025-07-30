@@ -284,24 +284,6 @@
         <input type="text" class="search-bar" placeholder="Search by region or SDG goal...">
     </section>
 
-        <!-- 搜索 & 分类 -->
-    <div style="text-align:center; margin:20px;">
-        <input type="text" id="search-input" placeholder="Search news..." style="padding:10px; width:250px;">
-        <select id="sdg-filter" style="padding:10px;">
-            <option value="">All SDGs</option>
-            <option value="education">SDG 4: Education</option>
-            <option value="inequality">SDG 10: Inequality</option>
-        </select>
-    </div>
-    
-    <!-- 动态新闻容器 -->
-    <section class="news-grid" id="dynamic-news"></section>
-    
-    <!-- 加载更多按钮 -->
-    <div style="text-align:center; margin:20px;">
-        <button id="load-more" style="padding:10px 20px; font-size:16px;">Load More</button>
-    </div>
-
 
     <!-- News Title -->
     <h1 class="section-title">Hot News Right Now!</h1>
@@ -479,83 +461,7 @@
         });
     </script>
      <!-- API connect groove -->
-    <script>
-    const API_KEY = "你的API_KEY"; // 替换成你的API Key
-    let currentPage = 1;
-    let currentQuery = '';
-    let currentCategory = '';
-    const pageSize = 6; // 每次加载6条
-    const newsContainer = document.getElementById('dynamic-news');
-    const loadMoreBtn = document.getElementById('load-more');
-    
-    // 获取新闻数据
-    async function fetchNews(page = 1, query = '', category = '') {
-        let url = https://newsapi.org/v2/top-headlines?country=us&pageSize=${pageSize}&page=${page}&apiKey=${API_KEY};
-    
-        if (query) url += &q=${query};
-        if (category) url += &category=${category}; // 只有支持的类别才会生效
-    
-        const response = await fetch(url);
-        const data = await response.json();
-        return data.articles;
-    }
-    
-    // 渲染新闻卡片
-    function renderNews(articles, clear = false) {
-        if (clear) newsContainer.innerHTML = ''; // 清空旧内容
-        articles.forEach(article => {
-            const card = document.createElement('article');
-            card.className = "news-card";
-    
-            const img = article.urlToImage ? <img src="${article.urlToImage}" style="width:100%; height:200px; object-fit:cover;"> : "";
-    
-            card.innerHTML = 
-                ${img}
-                <div class="card-content">
-                    <h3>${article.title}</h3>
-                    <p>${article.description || "No description available"}</p>
-                    <a href="${article.url}" class="cta-button" target="_blank">Read More</a>
-                </div>
-            ;
-            newsContainer.appendChild(card);
-        });
-    }
-    
-    // 初始加载
-    async function loadNews(clear = false) {
-        const articles = await fetchNews(currentPage, currentQuery, currentCategory);
-        renderNews(articles, clear);
-    }
-    
-    // 搜索功能
-    document.getElementById('search-input').addEventListener('keyup', (e) => {
-        currentQuery = e.target.value;
-        currentPage = 1;
-        loadNews(true); // 清空重新加载
-    });
-    
-    // 分类过滤
-    document.getElementById('sdg-filter').addEventListener('change', (e) => {
-        currentCategory = e.target.value;
-        currentPage = 1;
-        loadNews(true);
-    });
-    
-    // 加载更多
-    loadMoreBtn.addEventListener('click', () => {
-        currentPage++;
-        loadNews();
-    });
-    
-    // 页面加载时调用
-    loadNews();
-    setInterval(() => {
-    currentPage = 1;
-    loadNews(true);
-}, 300000); // 每5分钟刷新一次
-
-    </script>
-
+   
 
 </body>
 
