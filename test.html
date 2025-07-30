@@ -5,181 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UNSDG - Education & Inequality</title>
     
+    <!-- Fonts and Styles -->
     <link href="https://fonts.googleapis.com/css2?family=Schoolbell&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
     <style>
-        /* --- CSS Variables --- */
         :root {
             --sdg4-blue: #9b1fd3;
             --sdg10-orange: #FF6B4A;
             --text-dark: #333333;
             --bg-light: #F8F9FA;
-            --light-grey: #f0f0f0;
-            --dark-mode-bg: #1a1a1a;
-            --dark-mode-text: #f1f1f1;
-            --dark-mode-card: #2a2a2a;
-            --dark-mode-header-footer: #222;
-            --dark-mode-sdg-tag: #8833cc;
-            --dark-mode-cta: #ff8566;
-            --dark-mode-map-bg: #1e1e1e;
         }
 
-        /* --- Base Styles --- */
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
             background-color: white;
             color: var(--text-dark);
-            transition: background-color 0.3s, color 0.3s; /* Smooth transition for dark mode */
         }
 
-        /* --- Header --- */
+        /* === Header === */
         header {
             display: flex;
             justify-content: space-between;
-            align-items: center; /* Align items vertically in header */
             padding: 1rem 5%;
             background: white;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
         }
 
         .logo {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-weight: bold;
-            font-size: 1.2rem;
         }
 
-        .logo img {
-            height: 60px; /* Adjusted from 30px to 60px for better visibility */
-            width: 60px;
-            object-fit: cover;
-        }
-
-        /* --- Navigation --- */
-        nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 500;
-            transition: color 0.2s ease-in-out;
-        }
-
-        nav a:hover {
-            color: var(--sdg4-blue);
-        }
-
-        /* --- Theme Toggle Switch --- */
-        .theme-toggle {
-            display: flex;
-            align-items: center;
-        }
-
+        /* Toggle switch */
         .switch {
             position: relative;
             display: inline-block;
             width: 50px;
             height: 24px;
         }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
+        .switch input { display: none; }
         .slider {
             position: absolute;
             cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background-color: #ccc;
             border-radius: 24px;
             transition: 0.4s;
         }
-
         .slider:before {
             position: absolute;
             content: "";
-            height: 18px;
-            width: 18px;
-            left: 3px;
-            bottom: 3px;
+            height: 18px; width: 18px;
+            left: 3px; bottom: 3px;
             background-color: white;
             border-radius: 50%;
             transition: 0.4s;
         }
+        input:checked + .slider { background-color: #2196F3; }
+        input:checked + .slider:before { transform: translateX(26px); }
 
-        input:checked + .slider {
-            background-color: #2196F3;
-        }
+        /* Dark mode styles */
+        body.dark-mode { background-color: #1a1a1a; color: #f1f1f1; }
+        body.dark-mode header, body.dark-mode footer { background-color: #222; }
+        body.dark-mode .hero { background: linear-gradient(135deg, #672b9a, #333); }
+        body.dark-mode .news-card { background-color: #2a2a2a; }
+        body.dark-mode .cta-button { background-color: #ff8566; }
 
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-
-        /* --- Dark Mode Styles --- */
-        body.dark-mode {
-            background-color: var(--dark-mode-bg);
-            color: var(--dark-mode-text);
-        }
-
-        body.dark-mode header,
-        body.dark-mode footer {
-            background-color: var(--dark-mode-header-footer);
-            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.05);
-        }
-
-        body.dark-mode nav a {
-            color: var(--dark-mode-text);
-        }
-
-        body.dark-mode .hero {
-            background: linear-gradient(135deg, #672b9a, #333);
-        }
-
-        body.dark-mode .news-card,
-        body.dark-mode .news-card1 {
-            background-color: var(--dark-mode-card);
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        body.dark-mode .card-header,
-        body.dark-mode .card-header1 {
-            background-color: #333;
-        }
-
-        body.dark-mode .sdg-tag,
-        body.dark-mode .sdg-tag1 {
-            background-color: var(--dark-mode-sdg-tag);
-        }
-
-        body.dark-mode .cta-button {
-            background-color: var(--dark-mode-cta);
-            color: #fff;
-        }
-
-        body.dark-mode .map-section {
-            background-color: var(--dark-mode-map-bg);
-        }
-
-        /* --- Hero Section --- */
+        /* Hero */
         .hero {
             background: linear-gradient(135deg, var(--sdg4-blue), #A5D8FF);
             color: white;
@@ -187,546 +82,166 @@
             text-align: center;
         }
 
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
+        .search-bar { width: 60%; margin: 0 auto; padding: 0.8rem; border-radius: 50px; border: none; }
 
-        .search-bar {
-            width: 60%;
-            max-width: 500px; /* Add max-width for better responsiveness */
-            margin: 0 auto;
-            padding: 0.8rem;
-            border-radius: 50px;
-            border: none;
+        /* News grid */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            padding: 2rem 8%;
         }
-
-        /* --- Section Titles --- */
-        .section-title {
-            font-size: 300%;
-            text-align: center;
-            color: #d96252;
-            font-family: 'Schoolbell', cursive;
-            margin: 2rem 0 1rem;
-        }
-
-        /* --- News Card Grids (Horizontal Scroll) --- */
-        .news-grid,
-        .news-grid1 {
-            display: flex;
-            overflow-x: auto; /* Enable horizontal scrolling */
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            padding: 2rem 5%;
-            gap: 1.5rem; /* 24px */
-            scrollbar-width: none; /* Hide scrollbar for Firefox */
-            -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
-        }
-
-        .news-grid::-webkit-scrollbar,
-        .news-grid1::-webkit-scrollbar {
-            display: none; /* Hide scrollbar for Chrome, Safari, Opera */
-        }
-
-        .news-card,
-        .news-card1 {
-            flex-shrink: 0; /* Prevent cards from shrinking */
-            width: 400px; /* Fixed width for larger news cards */
-            border-radius: 8px;
+        .news-card {
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
             overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-            scroll-snap-align: start;
-            display: flex;
-            flex-direction: column; /* Stack header, content, and button vertically */
+            background: white;
         }
-
-        .news-card:hover,
-        .news-card1:hover {
-            transform: translateY(-5px);
-        }
-
-        .card-header,
-        .card-header1 {
-            padding: 1rem;
-            background: var(--bg-light);
-            display: flex;
-            justify-content: space-between;
-            align-items: center; /* Vertically align tag and small text */
-        }
-
-        .sdg-tag,
-        .sdg-tag1 {
-            background: var(--sdg4-blue);
-            color: white;
-            padding: 0.3rem 0.6rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }
-
-        .card-content,
-        .card-content1 {
-            padding: 1rem;
-            flex-grow: 1; /* Allow content to grow */
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between; /* Push CTA button to bottom */
-        }
-
-        .card-content h3,
-        .card-content1 h3 {
-            margin-top: 0;
-            margin-bottom: 0.5rem;
-        }
-        
-        /* Specific width for the second type of news cards (SDG 5 and Viral media) */
-        .news-card1 {
-            width: 300px; /* Fixed width for smaller news/media cards */
-        }
-
-        /* Adjustments for image/video cards to ensure consistent height and layout */
-        .news-grid1 article.news-card1 img,
-        .news-grid1 article.news-card1 video {
-            display: block;
-            max-width: 100%;
-            height: 150px; /* Consistent height for media */
-            object-fit: cover; /* Crop to fit, maintaining aspect ratio */
-        }
-
-        /* --- Call to Action Button --- */
+        .news-card img { width: 100%; height: 200px; object-fit: cover; }
+        .card-content { padding: 1rem; }
         .cta-button {
+            display: inline-block;
+            margin-top: 10px;
             background: var(--sdg10-orange);
             color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 50px;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
             text-decoration: none;
-            display: inline-block;
-            margin-top: auto; /* Pushes the button to the bottom of the flex container */
-            font-weight: bold;
-            align-self: flex-start; /* Align button to the start within its column */
-            transition: background-color 0.2s ease-in-out;
         }
 
-        .cta-button:hover {
-            background-color: #e55c3f; /* Slightly darker on hover */
-        }
-
-        /* --- Map Section --- */
-        .map-section {
-            padding: 2rem 5%;
-            background: var(--bg-light);
-            text-align: center;
-        }
-
-        .map-box {
-            padding: 1rem;
-            background: white; /* Added background for map box */
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
-        #interactive-map {
-            width: 100%;
-            height: 600px;
-            background: #ddd;
-            border-radius: 8px;
-            margin-top: 1rem;
-        }
-
-        /* --- Footer --- */
         footer {
-            background: var(--light-grey);
+            background: #f0f0f0;
             padding: 2rem 5%;
             text-align: center;
             font-size: 0.9rem;
-            color: var(--text-dark);
         }
-
-        /* --- Media Queries for Responsiveness --- */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .search-bar {
-                width: 80%;
-            }
-
-            .news-grid, .news-grid1 {
-                padding: 1rem 3%; /* Adjust padding for smaller screens */
-                gap: 1rem;
-            }
-
-            .news-card {
-                width: 320px; /* Smaller width for news cards on smaller screens */
-            }
-
-            .news-card1 {
-                width: 250px; /* Smaller width for news1/media cards on smaller screens */
-            }
-
-            .section-title {
-                font-size: 200%;
-            }
-
-            #interactive-map {
-                height: 400px; /* Reduce map height on smaller screens */
-            }
-        }
-
-        @media (max-width: 480px) {
-            header {
-                flex-direction: column;
-                padding: 1rem;
-                gap: 1rem;
-            }
-
-            nav ul {
-                flex-direction: column;
-                gap: 0.5rem;
-                align-items: center;
-            }
-
-            .search-bar {
-                width: 90%;
-            }
-
-            .news-card, .news-card1 {
-                width: 90vw; /* Make cards almost full width on very small screens */
-                max-width: 300px; /* Ensure they don't get too wide on small tablet views */
-            }
-        }
-
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">
-            <img src="https://media.discordapp.net/attachments/1349663384827723799/1377277891729162271/earthPNG.png?ex=6838617d&is=68370ffd&hm=deb5454d91d002d2d35db014a60f890a6f4085893245288f3d972eca03fb82bb&=&format=webp&quality=lossless&width=838&height=838" alt="Hii news">
-            <span>Hazy_News</span>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="https://hazywho.github.io/">Home</a></li>
-                <li><a href="#">News</a></li>
-                <li><a href="#">SDGs</a></li>
-                <li><a href="#">Picture</a></li>
-                <li><a href="#">Comment</a></li>
-            </ul>
-        </nav>
-        <div class="theme-toggle">
-            <label class="switch">
-                <input type="checkbox" id="theme-toggle-checkbox">
-                <span class="slider"></span>
-            </label>
-        </div>
-    </header>
+<header>
+    <div class="logo">
+        <img src="https://media.discordapp.net/attachments/1349663384827723799/1377277891729162271/earthPNG.png" alt="Logo" style="width:40px;">
+        <span>Hazy_News</span>
+    </div>
+    <label class="switch">
+        <input type="checkbox" id="theme-toggle-checkbox">
+        <span class="slider"></span>
+    </label>
+</header>
 
-    <section class="hero">
-        <h1>Tracking Equity in Education</h1>
-        <p>AI-Powered Insights for Global Change</p>
-        <input type="text" class="search-bar" placeholder="Search by region or SDG goal...">
-    </section>
+<section class="hero">
+    <h1>Tracking Equity in Education</h1>
+    <p>AI-Powered Insights for Global Change</p>
+</section>
 
-    <h1 class="section-title">Hot News Right Now!</h1>
-    <section class="news-grid" id="hot-news-grid">
-        <article class="news-card">
-            <div class="card-header">
-                <span class="sdg-tag">SDG 4</span>
-                <small>2 hours ago</small>
-            </div>
+<!-- Search and Filter -->
+<div style="text-align:center; margin:20px;">
+    <input type="text" id="search-input" placeholder="Search news..." style="padding:10px; width:250px;">
+    <select id="sdg-filter" style="padding:10px;">
+        <option value="">All SDGs</option>
+        <option value="education">SDG 4: Education</option>
+        <option value="inequality">SDG 10: Inequality</option>
+    </select>
+</div>
+
+<!-- Dynamic News -->
+<section class="news-grid" id="dynamic-news"></section>
+
+<!-- Load More -->
+<div style="text-align:center; margin:20px;">
+    <button id="load-more" style="padding:10px 20px; font-size:16px;">Load More</button>
+</div>
+
+<footer>
+    &copy; 2025 EquiNews. All rights reserved.
+</footer>
+
+<script>
+const API_KEY = "你的API_KEY"; // 替换为你的 NewsAPI Key
+let currentPage = 1;
+let currentQuery = '';
+let currentCategory = '';
+const pageSize = 6;
+const newsContainer = document.getElementById('dynamic-news');
+const loadMoreBtn = document.getElementById('load-more');
+
+// Fetch News
+async function fetchNews(page = 1, query = '', category = '') {
+    let keywords = 'sustainable development OR SDG OR education OR inequality OR poverty OR gender equality';
+    if (query) keywords = query;
+    if (category) keywords = category;
+
+    let url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(keywords)}&language=en&pageSize=${pageSize}&page=${page}&apiKey=${API_KEY}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    return data.articles;
+}
+
+// Render News
+function renderNews(articles, clear = false) {
+    if (clear) newsContainer.innerHTML = '';
+    articles.forEach(article => {
+        const card = document.createElement('article');
+        card.className = "news-card";
+        const img = article.urlToImage ? `<img src="${article.urlToImage}" alt="">` : "";
+        card.innerHTML = `
+            ${img}
             <div class="card-content">
-                <h3>What is Lorem Ipsum?</h3>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                <a href="#" class="cta-button">Read More</a>
-            </div>
-        </article>
-        
-        <article class="news-card">
-            <div class="card-header">
-                <span class="sdg-tag">SDG 4</span>
-                <small>2 hours ago</small>
-            </div>
-            <div class="card-content">
-                <h3>A New Dawn in Education Access</h3>
-                <p>Groundbreaking initiatives are closing the gap for underserved communities.</p>
-                <a href="#" class="cta-button">Read More</a>
-            </div>
-        </article>
+                <h3>${article.title}</h3>
+                <p>${article.description || "No description available"}</p>
+                <a href="${article.url}" class="cta-button" target="_blank">Read More</a>
+            </div>`;
+        newsContainer.appendChild(card);
+    });
+}
 
-        <article class="news-card">
-            <div class="card-header">
-                <span class="sdg-tag">SDG 4</span>
-                <small>1 day ago</small>
-            </div>
-            <div class="card-content">
-                <h3>Innovation in Learning Technology</h3>
-                <p>How AI is personalizing education for millions globally.</p>
-                <a href="#" class="cta-button">Read More</a>
-            </div>
-        </article>
+// Load News
+async function loadNews(clear = false) {
+    const articles = await fetchNews(currentPage, currentQuery, currentCategory);
+    renderNews(articles, clear);
+}
 
-        <article class="news-card">
-            <div class="card-header">
-                <span class="sdg-tag">SDG 4</span>
-                <small>3 days ago</small>
-            </div>
-            <div class="card-content">
-                <h3>Teacher Training: Key to Quality Education</h3>
-                <p>Investing in educators yields significant returns in student outcomes.</p>
-                <a href="#" class="cta-button">Read More</a>
-            </div>
-        </article>
+// Search
+document.getElementById('search-input').addEventListener('keyup', e => {
+    currentQuery = e.target.value;
+    currentPage = 1;
+    loadNews(true);
+});
 
-        <article class="news-card">
-            <div class="card-header">
-                <span class="sdg-tag">SDG 4</span>
-                <small>1 week ago</small>
-            </div>
-            <div class="card-content">
-                <h3>Bridging the Digital Divide in Schools</h3>
-                <p>Efforts to provide internet access and devices to every student.</p>
-                <a href="#" class="cta-button">Read More</a>
-            </div>
-        </article>
-    </section>
+// Filter
+document.getElementById('sdg-filter').addEventListener('change', e => {
+    currentCategory = e.target.value;
+    currentPage = 1;
+    loadNews(true);
+});
 
-    <h1 class="section-title"></h1>
-    <section class="news-grid1" >
-        <article class="news-card1">
-            <div class="card-header1">
-                <span class="sdg-tag1">SDG 5</span>
-                <small>2 hours ago</small>
-            </div>
-            <div class="card-content1">
-                <h3>Empowering Women Through Education</h3>
-                <p>New programs focus on girls' enrollment in STEM fields.</p>
-                <a href="#" class="cta-button">Read More</a>
-            </div>
-        </article>
-        
-        <article class="news-card1">
-            <div class="card-header1">
-                <span class="sdg-tag1">SDG 5</span>
-                <small>2 hours ago</small>
-            </div>
-            <div class="card-content1">
-                <h3>Gender Parity in Leadership Roles</h3>
-                <p>Universities report progress in female representation in academic leadership.</p>
-                <a href="#" class="cta-button">Read More</a>
-            </div>
-        </article>
-        
-        <article class="news-card1">
-            <div class="card-header1">
-                <span class="sdg-tag1">SDG 5</span>
-                <small>2 hours ago</small>
-            </div>
-            <div class="card-content1">
-                <h3>Breaking Barriers: Women in Tech</h3>
-                <p>Initiatives to encourage more women into technology sectors.</p>
-                <a href="#" class="cta-button">Read More</a>
-            </div>
-        </article>
+// Load More
+loadMoreBtn.addEventListener('click', () => {
+    currentPage++;
+    loadNews();
+});
 
-        <article class="news-card1">
-            <div class="card-header1">
-                <span class="sdg-tag1">SDG 5</span>
-                <small>2 hours ago</small>
-            </div>
-            <div class="card-content1">
-                <h3>Addressing Gender-Based Violence</h3>
-                <p>Educational campaigns are raising awareness and promoting safety.</p>
-                <a href="#" class="cta-button">Read More</a>
-            </div>
-        </article>
-        <article class="news-card1">
-            <div class="card-header1">
-                <span class="sdg-tag1">SDG 5</span>
-                <small>1 day ago</small>
-            </div>
-            <div class="card-content1">
-                <h3>Policy Changes for Equal Pay</h3>
-                <p>Governments are implementing laws to ensure fair wages for all genders.</p>
-                <a href="#" class="cta-button">Read More</a>
-            </div>
-        </article>
-    </section>
+// Auto refresh every 5 mins
+setInterval(() => {
+    currentPage = 1;
+    loadNews(true);
+}, 300000);
 
-    <h1 class="section-title">Viral videos or images now</h1>
-    <section class="news-grid1" id="viral-media-grid">
-        <article class="news-card1">
-            <img src="https://cdn.pixabay.com/photo/2016/09/01/10/23/learn-1635391_1280.jpg" alt="viral image">
-            <div class="card-content1">
-                <h3>Inspiring Future Leaders</h3>
-                <p>A look into a school making a difference.</p>
-            </div>
-        </article>
-        <article class="news-card1">
-            <video controls>
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-little-girl-drawing-with-colored-pencils-34509-large.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <div class="card-content1">
-                <h3>Creativity in the Classroom</h3>
-                <p>Watch how young minds explore art.</p>
-            </div>
-        </article>
-        <article class="news-card1">
-            <img src="https://cdn.pixabay.com/photo/2017/08/02/10/51/education-2571477_1280.jpg" alt="viral image">
-            <div class="card-content1">
-                <h3>Global Collaboration in Education</h3>
-                <p>Students from different countries connecting online.</p>
-            </div>
-        </article>
-           <article class="news-card1">
-            <video controls>
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-children-reading-in-a-class-31128-large.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <div class="card-content1">
-                <h3>The Joy of Reading</h3>
-                <p>A heartwarming scene from a literacy program.</p>
-            </div>
-        </article>
-        <article class="news-card1">
-            <img src="https://cdn.pixabay.com/photo/2015/07/16/11/49/teacher-847355_1280.jpg" alt="viral image">
-            <div class="card-content1">
-                <h3>Dedicated Educators</h3>
-                <p>Celebrating the unsung heroes of learning.</p>
-            </div>
-        </article>
-    </section>
+// Initial load
+loadNews();
 
-    ---
-    <h1 class="section-title">Global Education Inequality Hotspot</h1>
-    <section class="map-section">
-        <div class="map-box">
-            <h3>Map: Education Inequality Worldwide</h3>
-            <div id="interactive-map"></div>
-        </div>
-        <a href="#" class="cta-button">Explore Data</a>
-    </section>
-    
-    <footer>
-        &copy; 2025 Hazy_News. All rights reserved.
-    </footer>
-
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script>
-        const map = L.map('interactive-map');
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://carto.com/">CARTO</a>'
-        }).addTo(map);
-
-        map.fitBounds([
-            [-60, -160],
-            [70, 180]
-        ]);
-
-        L.marker([-1.9577, 30.1127]).addTo(map).bindPopup('Sub-Saharan Africa: Limited access to education');
-        L.marker([23.684994, 90.356331]).addTo(map).bindPopup('South Asia: Gender disparity in schools');
-        L.marker([-14.235, -51.9253]).addTo(map).bindPopup('Latin America: Rural school drop-out crisis');
-    </script>
-
-    <script>
-        const themeToggleCheckbox = document.getElementById('theme-toggle-checkbox');
-        const body = document.body;
-
-        // Load theme preference from localStorage
-        if (localStorage.getItem('theme') === 'dark') {
-            body.classList.add('dark-mode');
-            themeToggleCheckbox.checked = true;
-        }
-
-        // Listen for changes on the toggle switch
-        themeToggleCheckbox.addEventListener('change', () => {
-            if (themeToggleCheckbox.checked) {
-                body.classList.add('dark-mode');
-                localStorage.setItem('theme', 'dark'); // Save preference
-            } else {
-                body.classList.remove('dark-mode');
-                localStorage.setItem('theme', 'light'); // Save preference
-            }
-        });
-    </script>
-
-    <script>
-        function setupAutoScroll(containerId, scrollSpeed = 50, scrollDirection = 'left') { // Default to scrolling left
-            const container = document.getElementById(containerId);
-            if (!container) {
-                console.warn(`Scroll container with ID '${containerId}' not found.`);
-                return;
-            }
-
-            let currentScrollPosition = 0;
-            let animationFrameId;
-            let isPaused = false;
-
-            function animateScroll() {
-                // If there's no overflow, stop scrolling
-                if (container.scrollWidth <= container.clientWidth) {
-                    cancelAnimationFrame(animationFrameId);
-                    return;
-                }
-
-                // Calculate the amount to scroll per frame (assuming 60 frames per second)
-                const scrollStep = (scrollSpeed / 60);
-
-                // --- WHERE TO CHANGE SCROLL DIRECTION ---
-                if (scrollDirection === 'left') {
-                    currentScrollPosition += scrollStep; // Scroll to the left (content moves left)
-                    
-                    // Loop back to the start when reaching the end
-                    if (currentScrollPosition >= (container.scrollWidth - container.clientWidth - 1)) {
-                        currentScrollPosition = 0;
-                    }
-                } else if (scrollDirection === 'right') {
-                    currentScrollPosition -= scrollStep; // Scroll to the right (content moves right)
-
-                    // Loop back to the end when reaching the start
-                    if (currentScrollPosition <= 0) {
-                        currentScrollPosition = container.scrollWidth - container.clientWidth - 1;
-                    }
-                }
-                // --- END OF SCROLL DIRECTION CHANGE ---
-
-                container.scrollLeft = currentScrollPosition;
-                animationFrameId = requestAnimationFrame(animateScroll);
-            }
-
-            // Pause scrolling on mouse hover
-            container.addEventListener('mouseenter', () => {
-                cancelAnimationFrame(animationFrameId);
-                isPaused = true;
-            });
-
-            // Resume scrolling on mouse leave
-            container.addEventListener('mouseleave', () => {
-                if (isPaused) {
-                    animateScroll();
-                    isPaused = false;
-                }
-            });
-
-            // Start the scroll animation when the page loads
-            animateScroll();
-
-            // Handle window resizing: reset scroll position and restart animation
-            window.addEventListener('resize', () => {
-                cancelAnimationFrame(animationFrameId);
-                currentScrollPosition = 0; // Reset scroll position on resize
-                animateScroll();
-            });
-        }
-
-        // Initialize auto-scrolling for each section
-        // You can adjust the 'scrollSpeed' (pixels per second) and 'scrollDirection' ('left' or 'right')
-        setupAutoScroll('hot-news-grid', 50, 'left');
-        setupAutoScroll('gender-equality-news-grid', 60, 'right'); // Example: scrolling right
-        setupAutoScroll('viral-media-grid', 70, 'left');
-    </script>
+// Dark mode toggle
+const toggle = document.getElementById('theme-toggle-checkbox');
+if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+    toggle.checked = true;
+}
+toggle.addEventListener('change', () => {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('theme', toggle.checked ? 'dark' : 'light');
+});
+</script>
 
 </body>
 </html>
